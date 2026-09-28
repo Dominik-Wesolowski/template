@@ -1,33 +1,37 @@
-## Author note
+# Business action documentation template
 
-Use one page for one business action, whether it is implemented by an API, plugin, Flow, or a combination. The page starts at the title below. Add only the steps that exist; include technical details where they affect the outcome. Replace the prompts with verified behavior and remove unused lines. Keep links to the code, registration, Flow, and logs current.
+Use this page for one behavior that a developer may need to understand, change, or investigate. It can cover a single endpoint or a process spanning APIs, plugins, and flows. Start a new Confluence page at the title below. Keep the sections, but remove prompts and optional lines that add no information. Link to the contract and code instead of copying their full specification. An example shows the normal path; the rules explain when the result changes.
 
-# [Business action]
+---
 
-> **Purpose:** [Who needs this action and why?]
->
-> **Complete when:** [What exists or changes when the full process has finished?]
+# [Action expressed as a verb and outcome]
 
-**Starts with:** [Caller and API route, Dataverse event, Flow trigger, or schedule.]
+**Why it exists:** [Who needs the result, and for what business reason? One or two sentences.]
 
-## Example and execution
+**Starts when:** [API caller and route, Dataverse message/table, Flow trigger, or schedule. Include the condition that actually starts this action.]
 
-**Input:** [One representative request, event, or record. Show a sanitized payload only if its fields help explain the action.]
+**Done when:** [Observable final state. If work continues after an API response, say so.]
 
-1. **[Component and trigger]:** [What it receives, the important condition, and what it produces. For a plugin, include message/table/stage; for a Flow, include its trigger; for an API, include method/route.]
-2. **[Next component, if any]:** [What it receives and creates, changes, or sends onward.]
-3. **[Final step, if any]:** [What marks the process as complete.]
+## Example input
 
-**Data crossing a system boundary (if relevant):** [Show one short payload and the destination if a transformation is important to understand.]
+[Show one short, sanitized request/event/record with the fields that explain the behavior. For an API, use a JSON code block; for a plugin or Flow, name the changed fields and relevant prior values.]
 
-**Different outcomes (if relevant):** [Condition → action → result. Include only branches that materially change the outcome.]
+## What happens
 
-## Result and support
+1. **[Component and entry point]:** [Condition or rule → data used → change or call → result. Mention why this step matters if it is not obvious. For a plugin: message, table, stage, sync/async, and relevant filtering/image details.]
+2. **[Next component, if any]:** [Same pattern. State when execution leaves the initiating transaction or continues later.]
+3. **[Further step, if any]:** [Add or remove steps to match the actual path. Group routine internal calls that do not affect understanding.]
 
-**Immediate result:** [What the initiating user/system sees, and when. If it is only an acknowledgement, say so.]
+**Key data handoff:** [If a field is renamed, transformed, stored, or sent to another system, show only the important source → destination mappings. Include a short outgoing payload when the external call is part of the outcome. Remove this line otherwise.]
 
-**Verify completion:** [Where to find the final record, file, message, or status and which ID to search for.]
+**Rules that change the outcome:** [List only meaningful alternatives, for example duplicate input, a skipped Flow, or a different branch. Use `condition → behavior → visible result`. Remove if the path above already makes them clear.]
 
-**Failure and replay:** [What can remain after a partial failure, where to find the failed step, and whether rerunning can duplicate effects.]
+## Result and recovery
 
-**References:** [Entry point / contract] · [Code and plugin registration] · [Flow in solution] · [Logs / run history] · [Responsible team]
+**Immediate result:** [What the caller or user receives now, and what this does and does not confirm. Remove if there is no initiating response.]
+
+**Check the final result:** [Exact record, file, message, status, or run to inspect; ID/key to search with.]
+
+**If it fails or runs again:** [What may already have happened; how to find the failed step; what a retry, replay, or duplicate event does. State any safety check before a manual rerun.]
+
+**Sources:** [Contract / request example] · [Handler and relevant plugin classes / registration source] · [Flow in solution] · [Logs / run history] · [Owning team]. Keep only applicable links.
